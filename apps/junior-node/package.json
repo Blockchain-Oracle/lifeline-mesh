@@ -1,0 +1,25 @@
+{
+  "name": "@lifeline/junior-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@lifeline/core": "workspace:*",
+    "@lifeline/rag": "workspace:*",
+    "@lifeline/agents": "workspace:*",
+    "@lifeline/mesh": "workspace:*",
+    "@fastify/static": "^7.0.4",
+    "@fastify/websocket": "^10.0.1",
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "typescript": "^5.5.4"
+  }
+}
