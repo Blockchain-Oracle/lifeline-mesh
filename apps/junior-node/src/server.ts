@@ -8,6 +8,7 @@ import type { CaseService } from "./case-service.js";
 const log = getAppLogger("junior.server");
 const AUDIT_TAIL = 200;
 const HTTP_BAD_REQUEST = 400;
+const HTTP_NO_CONTENT = 204;
 
 interface AssessBody {
   utterance: string;
@@ -23,6 +24,8 @@ interface ReferralBody {
 
 export function buildServer(service: CaseService, opts: { webDir?: string; auditPath: string }): FastifyInstance {
   const app = Fastify({ logger: false });
+
+  app.get("/favicon.ico", async (_req, reply) => reply.code(HTTP_NO_CONTENT).send());
 
   app.get("/api/health", async () => ({ ok: true }));
 

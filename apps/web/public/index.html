@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lifeline Mesh</title>
+    <style>
+      /* PLACEHOLDER styling only — final visuals come from the designer (see DESIGN_BRIEF.md). */
+      :root { font-family: system-ui, sans-serif; line-height: 1.4; }
+      body { margin: 0; padding: 1rem; max-width: 720px; margin-inline: auto; }
+      header { display: flex; justify-content: space-between; align-items: center; }
+      h1 { font-size: 1.2rem; margin: 0.2rem 0; }
+      .placeholder { font-size: 0.75rem; opacity: 0.6; }
+      .pill { font-size: 0.75rem; padding: 0.2rem 0.6rem; border: 1px solid #999; border-radius: 999px; }
+      textarea, input, button { font: inherit; padding: 0.6rem; width: 100%; box-sizing: border-box; margin-top: 0.4rem; }
+      button { cursor: pointer; min-height: 44px; }
+      .card { border: 1px solid #ccc; border-radius: 12px; padding: 1rem; margin-top: 1rem; }
+      .verdict { font-size: 1.3rem; font-weight: 600; }
+      .cite { font-size: 0.85rem; }
+      .escalate { font-size: 0.85rem; margin-top: 0.5rem; }
+      pre { white-space: pre-wrap; font-size: 0.85rem; }
+      [hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Lifeline Mesh</h1>
+        <div class="placeholder">placeholder UI — final design by the designer</div>
+      </div>
+      <span class="pill" id="mesh">mesh: …</span>
+    </header>
+
+    <main>
+      <label>Child age (months)<input id="age" type="number" value="24" /></label>
+      <label>What does the health worker report?
+        <textarea id="utterance" rows="3" data-testid="utterance">Child two years old, fever three days, breathing fast, 52 breaths per minute, not eating well.</textarea>
+      </label>
+      <button id="assess" data-testid="assess">Assess child</button>
+
+      <section class="card" id="result" hidden>
+        <div class="verdict" id="classification" data-testid="classification"></div>
+        <div id="rationale"></div>
+        <div class="cite" id="citation" data-testid="citation"></div>
+        <div class="escalate" id="escalate"></div>
+        <button id="refer" data-testid="refer">Generate referral note</button>
+      </section>
+
+      <section class="card" id="referral" hidden>
+        <strong>Referral note</strong>
+        <pre id="referralText" data-testid="referral-text"></pre>
+      </section>
+    </main>
+
+    <script>
+      let lastCase = null;
+      const $ = (id) => document.getElementById(id);
+
+      async function refreshMesh() {
+        try {
+          const m = await (await fetch("/api/mesh")).json();
+          $("mesh").textContent = "mesh: " + (m.status || "local");
+        } catch { $("mesh").textContent = "mesh: local"; }
+      }
+
+      $("assess").addEventListener("click", async () => {
+        $("assess").disabled = true;
+        $("assess").textContent = "Assessing…";
+        try {
+          const body = { utterance: $("utterance").value, ageMonths: Number($("age").value), sex: "unknown" };
+          const d = await (await fetch("/api/case", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })).json();
+          lastCase = d.case;
+          $("classification").textContent = d.case.classification;
+          $("rationale").textContent = d.case.rationale;
+          $("citation").textContent = d.classificationCitation ? "Source: " + d.classificationCitation.label : "";
+          const esc = d.route.escalation;
+          $("escalate").textContent = esc.escalate
+            ? (d.route.target === "senior-delegated" ? "↗ Escalated to senior brain (" + esc.reason + ")" : "↗ Senior review advised (" + esc.reason + ") — senior offline, shown from junior")
+            : "Handled on the junior node.";
+          $("result").hidden = false;
+          $("referral").hidden = true;
+        } finally {
+          $("assess").disabled = false;
+          $("assess").textContent = "Assess child";
+        }
+      });
+
+      $("refer").addEventListener("click", async () => {
+        if (!lastCase) return;
+        $("refer").disabled = true;
+        try {
+          const body = { case: lastCase, ageMonths: Number($("age").value), sex: "unknown", dateIso: new Date().toISOString().slice(0, 10) };
+          const d = await (await fetch("/api/referral", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })).json();
+          $("referralText").textContent = d.markdown;
+          $("referral").hidden = false;
+        } finally {
+          $("refer").disabled = false;
+        }
+      });
+
+      refreshMesh();
+    </script>
+  </body>
+</html>

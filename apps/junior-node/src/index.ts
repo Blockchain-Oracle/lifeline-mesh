@@ -1,4 +1,5 @@
 import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { getAppLogger, loadEnv, PORTS } from "@lifeline/core";
 import { CaseService } from "./case-service.js";
@@ -20,7 +21,10 @@ async function main(): Promise<void> {
   });
   await service.init();
 
-  const webDir = join(root, "apps", "web", "dist");
+  // Prefer the designer's built app; fall back to the committed placeholder page.
+  const builtDir = join(root, "apps", "web", "dist");
+  const placeholderDir = join(root, "apps", "web", "public");
+  const webDir = existsSync(builtDir) ? builtDir : placeholderDir;
   const app = buildServer(service, { webDir, auditPath });
 
   const port = PORTS.JUNIOR_HTTP;
