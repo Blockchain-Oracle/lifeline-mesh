@@ -53,9 +53,25 @@ sync_repo() {
   rsync -a --delete --exclude node_modules --exclude .git "$REPO_DIR/" "$INSTALL_DIR/"
 }
 
+ensure_swap() {
+  # The full @qvac/sdk install pulls native prebuilds for every addon and can OOM a
+  # 4 GB Pi during install/build (verified: OOM-killed in a memory-limited arm64 VM).
+  # Ensure at least ~2 GB swap so the install survives.
+  local have_kb
+  have_kb=$(awk '/SwapTotal/ {print $2}' /proc/meminfo 2>/dev/null || echo 0)
+  if [ "${have_kb:-0}" -lt 1500000 ] && [ ! -f /swapfile-lifeline ]; then
+    log "adding 2 GB swap for the install (low default swap on Pi OS)…"
+    fallocate -l 2G /swapfile-lifeline || dd if=/dev/zero of=/swapfile-lifeline bs=1M count=2048
+    chmod 600 /swapfile-lifeline
+    mkswap /swapfile-lifeline && swapon /swapfile-lifeline
+  fi
+}
+
 build_app() {
+  ensure_swap
   log "installing deps + building (this pulls the QVAC SDK native ARM64 prebuilds)…"
-  ( cd "$INSTALL_DIR" && pnpm install --frozen-lockfile && pnpm build )
+  # Lower install concurrency to keep the memory spike down on constrained hardware.
+  ( cd "$INSTALL_DIR" && pnpm install --frozen-lockfile --child-concurrency=1 && pnpm build )
   if [ ! -f "$INSTALL_DIR/infra/pi/lifeline.env" ]; then
     cp "$INSTALL_DIR/infra/pi/lifeline.env.example" "$INSTALL_DIR/infra/pi/lifeline.env"
     log "created infra/pi/lifeline.env from the example — edit it to set LIFELINE_SENIOR_KEY"

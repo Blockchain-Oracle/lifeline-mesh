@@ -30,3 +30,11 @@ Then join Wi-Fi **LifelineMesh** and open **http://lifeline.local:8787**.
 - Smaller embedder by URL: `Qwen3-Embedding-0.6B-Q4` (rebuild `kb/workspace.sqlite`, EMBED_DIM→1024).
 - Sequential model load/unload between turns; `espeak-ng` instead of Supertonic.
 - Reduce `CTX.SENIOR` (8192) toward 4096 for the junior loop.
+
+## Known install risk (found via arm64 container test, 2026-06-13)
+The full `@qvac/sdk` install pulls native prebuilds for **every** addon (llm, embed,
+whisper, tts, diffusion, ocr, vla, classification, parakeet) — extracting them spiked
+memory and was **OOM-killed in a memory-limited arm64 VM**. `infra/pi/install.sh` now
+adds 2 GB swap and lowers install concurrency before `pnpm install` to survive on a
+4 GB Pi. If install still OOMs: add more swap, or run `pnpm install` once with the Pi
+otherwise idle. (Runtime RAM for inference is separate — see item 2 above.)
