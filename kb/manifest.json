@@ -1,0 +1,14 @@
+{
+  "version": "lifeline-v1",
+  "builtFrom": "kb/source",
+  "sources": [
+    {
+      "id": "imci",
+      "title": "WHO IMCI Chart Booklet (March 2014)",
+      "url": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf",
+      "licence": "© WHO 2014 — reproduced for non-commercial research/demonstration use",
+      "sha256": "d10fd1d040bdbdb6db4254b8095e1d1722d0a3d2f80c3651b3003301a8a6959f",
+      "chunkCount": 9
+    }
+  ]
+}

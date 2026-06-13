@@ -9,6 +9,9 @@ dist/
 *.bin
 kb/source/*.pdf
 
+# Derivable intermediate: page-marked text extracted from the PDF by ingest.mjs
+kb/source/.text/
+
 # Built RAG DB can be large; commit only if under limits (tracked via LFS otherwise)
 # kb/workspace.sqlite
 
