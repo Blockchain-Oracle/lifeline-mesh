@@ -17,3 +17,4 @@ export {
   type Category,
 } from "./findings.js";
 export { classifyCase, type CaseClassification } from "./classify-case.js";
+export { detectCategories } from "./detect.js";

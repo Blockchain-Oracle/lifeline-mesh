@@ -8,6 +8,7 @@ import {
   CATEGORY_FINDING_FLAG,
   CATEGORIES,
   classifyCase,
+  detectCategories,
   type Findings,
   type Category,
 } from "@lifeline/tools";
@@ -88,7 +89,10 @@ export async function runCase(input: CaseInput, deps: CaseRunnerDeps): Promise<C
   const triage = await extract(deps, input, history, "triage", TRIAGE_JSON_SCHEMA);
   const merged: Record<string, unknown> = { ...triage };
 
-  const present: Category[] = CATEGORIES.filter((c) => triage[CATEGORY_TRIAGE_FLAG[c]] === true);
+  const detected = new Set(detectCategories(input.utterance));
+  const present: Category[] = CATEGORIES.filter(
+    (c) => triage[CATEGORY_TRIAGE_FLAG[c]] === true || detected.has(c),
+  );
   for (const category of present) {
     const signs = await extract(deps, input, history, `signs_${category}`, CATEGORY_JSON_SCHEMAS[category]);
     Object.assign(merged, signs);
