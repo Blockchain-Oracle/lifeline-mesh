@@ -1,0 +1,423 @@
+project: Lifeline Mesh
+hackathon: qvac-unleach-edge-ai-i
+deadline: 2026-06-21T23:59:00Z
+early_bird_target: 2026-06-14T23:59:00Z
+repo: ""
+thread_surface: ""
+thread_chat_id: ""
+thread_topic_id: ""
+thread_anchor: ""
+stories:
+  # Epic 1 — Scaffold + CI/CD
+  - id: story-monorepo-bootstrap
+    epic: "Epic 1 — Scaffold + CI/CD"
+    status: PENDING
+    depends_on: []
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-eslint-400-line-cap
+    epic: "Epic 1 — Scaffold + CI/CD"
+    status: PENDING
+    depends_on: [story-monorepo-bootstrap]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-ci-workflow
+    epic: "Epic 1 — Scaffold + CI/CD"
+    status: PENDING
+    depends_on: [story-eslint-400-line-cap]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-arm-smoke-workflow
+    epic: "Epic 1 — Scaffold + CI/CD"
+    status: PENDING
+    depends_on: [story-ci-workflow]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 2 — Inference adapter + audit log
+  - id: story-core-ports
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-monorepo-bootstrap]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-logger-factory
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-core-ports]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-constants-and-env
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-core-ports]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-audit-writer
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-logger-factory, story-constants-and-env]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-inference-adapter
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-audit-writer]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-inference-fakes
+    epic: "Epic 2 — Inference adapter + audit log"
+    status: PENDING
+    depends_on: [story-inference-adapter]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 3 — KB ingest
+  - id: story-pdf-text-ingest
+    epic: "Epic 3 — KB ingest"
+    status: PENDING
+    depends_on: [story-monorepo-bootstrap]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-section-chunker
+    epic: "Epic 3 — KB ingest"
+    status: PENDING
+    depends_on: [story-pdf-text-ingest]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-kb-manifest
+    epic: "Epic 3 — KB ingest"
+    status: PENDING
+    depends_on: [story-section-chunker]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-imci-curated-subset
+    epic: "Epic 3 — KB ingest"
+    status: PENDING
+    depends_on: [story-section-chunker]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-eval-cases
+    epic: "Epic 3 — KB ingest"
+    status: PENDING
+    depends_on: [story-imci-curated-subset]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 4 — RAG runtime + citations
+  - id: story-embed-kb-script
+    epic: "Epic 4 — RAG runtime + citations"
+    status: PENDING
+    depends_on: [story-inference-adapter, story-imci-curated-subset]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-rag-search-wrapper
+    epic: "Epic 4 — RAG runtime + citations"
+    status: PENDING
+    depends_on: [story-embed-kb-script]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-citation-resolver
+    epic: "Epic 4 — RAG runtime + citations"
+    status: PENDING
+    depends_on: [story-rag-search-wrapper]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-workspace-portability
+    epic: "Epic 4 — RAG runtime + citations"
+    status: PENDING
+    depends_on: [story-embed-kb-script]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 5 — Agents + tools
+  - id: story-tool-schemas
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-inference-fakes]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-ddi-tool
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-tool-schemas, story-citation-resolver]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-clinical-tools
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-tool-schemas]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-triage-agent
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-clinical-tools, story-citation-resolver]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-walkthrough-agent
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-triage-agent]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-self-assessment-probe
+    epic: "Epic 5 — Agents + tools"
+    status: PENDING
+    depends_on: [story-walkthrough-agent]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 6 — Referral note
+  - id: story-referral-schema
+    epic: "Epic 6 — Referral note"
+    status: PENDING
+    depends_on: [story-walkthrough-agent]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-referral-generator
+    epic: "Epic 6 — Referral note"
+    status: PENDING
+    depends_on: [story-referral-schema]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-referral-render
+    epic: "Epic 6 — Referral note"
+    status: PENDING
+    depends_on: [story-referral-generator]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 7 — Mesh + delegation + escalation
+  - id: story-senior-provider
+    epic: "Epic 7 — Mesh + delegation + escalation"
+    status: PENDING
+    depends_on: [story-inference-adapter]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-mesh-heartbeat
+    epic: "Epic 7 — Mesh + delegation + escalation"
+    status: PENDING
+    depends_on: [story-senior-provider]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-delegate-helper
+    epic: "Epic 7 — Mesh + delegation + escalation"
+    status: PENDING
+    depends_on: [story-mesh-heartbeat]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-escalation-policy
+    epic: "Epic 7 — Mesh + delegation + escalation"
+    status: PENDING
+    depends_on: [story-self-assessment-probe, story-delegate-helper]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-route-by-state
+    epic: "Epic 7 — Mesh + delegation + escalation"
+    status: PENDING
+    depends_on: [story-escalation-policy]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 8 — Voice pipeline
+  - id: story-mediarecorder-capture
+    epic: "Epic 8 — Voice pipeline"
+    status: PENDING
+    depends_on: [story-vite-scaffold]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-utterance-route
+    epic: "Epic 8 — Voice pipeline"
+    status: PENDING
+    depends_on: [story-inference-adapter]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-tts-playback
+    epic: "Epic 8 — Voice pipeline"
+    status: PENDING
+    depends_on: [story-mediarecorder-capture, story-utterance-route]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-voice-fallback
+    epic: "Epic 8 — Voice pipeline"
+    status: PENDING
+    depends_on: [story-tts-playback]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 9 — Web UI
+  - id: story-vite-scaffold
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-monorepo-bootstrap]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-case-console-shell
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-vite-scaffold]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-protocol-step-card
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-case-console-shell]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-citation-chip-drawer
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-case-console-shell]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-escalation-banner
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-case-console-shell]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-classification-and-referral
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-protocol-step-card]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-audit-viewer
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-case-console-shell]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-mesh-status-pill
+    epic: "Epic 9 — Web UI"
+    status: PENDING
+    depends_on: [story-case-console-shell, story-mesh-heartbeat]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 10 — Pi packaging
+  - id: story-hostapd-dnsmasq
+    epic: "Epic 10 — Pi packaging"
+    status: PENDING
+    depends_on: []
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-mdns-avahi
+    epic: "Epic 10 — Pi packaging"
+    status: PENDING
+    depends_on: []
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-systemd-unit
+    epic: "Epic 10 — Pi packaging"
+    status: PENDING
+    depends_on: [story-route-by-state]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-install-script
+    epic: "Epic 10 — Pi packaging"
+    status: PENDING
+    depends_on: [story-hostapd-dnsmasq, story-mdns-avahi, story-systemd-unit]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+
+  # Epic 11 — Submission artefacts + video
+  - id: story-bench-pi5
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: [story-install-script, story-eval-cases]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-bench-laptop
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: [story-route-by-state, story-eval-cases]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-audit-aggregate
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: [story-bench-pi5, story-bench-laptop]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-remote-apis-file
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: []
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-readme-and-screenshots
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: [story-audit-aggregate]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-video-script
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: [story-readme-and-screenshots]
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
+  - id: story-build-in-public-checklist
+    epic: "Epic 11 — Submission artefacts + video"
+    status: PENDING
+    depends_on: []
+    issue_url: ""
+    pr_url: ""
+    merged_at: ""
