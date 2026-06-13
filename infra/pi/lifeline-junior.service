@@ -1,0 +1,20 @@
+# systemd unit for the Lifeline Mesh junior node. Comes up on boot, restarts on
+# failure. Installed + enabled by infra/pi/install.sh.
+[Unit]
+Description=Lifeline Mesh junior node (offline IMCI assistant)
+After=network-online.target hostapd.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Set by install.sh to the cloned repo path.
+WorkingDirectory=/opt/lifeline-mesh
+EnvironmentFile=/opt/lifeline-mesh/infra/pi/lifeline.env
+ExecStart=/usr/bin/node apps/junior-node/dist/index.js
+Restart=on-failure
+RestartSec=5
+# Allow time for the model to load before health checks.
+TimeoutStartSec=300
+
+[Install]
+WantedBy=multi-user.target

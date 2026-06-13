@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<!-- Advertises the junior node over mDNS so phones reach http://lifeline.local:8787.
+     Installed to /etc/avahi/services/lifeline.service by infra/pi/install.sh. -->
+<service-group>
+  <name replace-wildcards="yes">Lifeline Mesh on %h</name>
+  <service>
+    <type>_http._tcp</type>
+    <port>8787</port>
+  </service>
+</service-group>

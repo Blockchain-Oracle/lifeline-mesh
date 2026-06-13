@@ -15,7 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "pnpm -r --workspace-concurrency=1 --if-present build",
-    "schema:check": "node scripts/check-schemas.mjs"
+    "schema:check": "node scripts/check-schemas.mjs && node scripts/check-infra.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
