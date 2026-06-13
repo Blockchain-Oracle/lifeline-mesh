@@ -1,4 +1,8 @@
-# Lifeline Mesh
+<img src="brand/lifeline-lockup.svg" alt="Lifeline Mesh" height="56" />
+
+<!-- Designer banner (1280×320) drops in here once delivered — see DESIGNER_IMAGE_BRIEF.md -->
+
+> ### When there's no signal, when the network goes down, care shouldn't.
 
 **An offline "clinic-in-a-box": it walks a community health worker through WHO clinical protocols by voice, cites the exact guideline page, writes the referral letter, and — when a case is hard — escalates it across a local-only P2P mesh to a bigger medical model on the supervisor's laptop. 100% on-device. Zero bytes to the cloud.**
 

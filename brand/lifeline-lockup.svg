@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" width="320" height="56" fill="none" role="img" aria-label="Lifeline Mesh">
+  <path d="M10 28 H26 L31 18 L37 38 L42 28 H58" stroke="#1F8A82" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"></path>
+  <circle cx="8" cy="28" r="4.2" fill="#1F8A82"></circle>
+  <circle cx="60" cy="28" r="4.2" fill="#1F8A82"></circle>
+  <text x="84" y="36" font-family="&#39;Hanken Grotesk&#39;, system-ui, sans-serif" font-size="27" font-weight="700" letter-spacing="-0.5" fill="#23211D">Lifeline Mesh</text>
+</svg>

@@ -22,3 +22,7 @@ infra/pi/*.env
 
 # Raw audit NDJSON is regenerated per run; keep the aggregated submission JSON only
 submission/*.ndjson
+
+# Internal submission planning (video shot list, build-in-public) — not public
+submission/README.demo.md
+submission/BUILD-IN-PUBLIC.md
