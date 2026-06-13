@@ -14,7 +14,7 @@
     "lint:sloc": "node scripts/check-sloc.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "pnpm -r --if-present build",
+    "build": "pnpm -r --workspace-concurrency=1 --if-present build",
     "schema:check": "node scripts/check-schemas.mjs"
   },
   "devDependencies": {

@@ -23,6 +23,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Build first: workspace packages resolve cross-imports (@lifeline/*) via their
+      # built dist + .d.ts, which typecheck and vitest both need.
+      - name: Build
+        run: pnpm build
+
       - name: Typecheck
         run: pnpm typecheck
 
@@ -37,6 +42,3 @@ jobs:
 
       - name: Schema check
         run: pnpm schema:check
-
-      - name: Build
-        run: pnpm build
