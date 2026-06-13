@@ -5,6 +5,7 @@ export * from "./audit.js";
 export * from "./env.js";
 export { getAppLogger, getAuditLogger } from "./logger.js";
 export { LlmAdapter } from "./inference-llm.js";
+export { EmbedAdapter } from "./inference-embed.js";
 export {
   FakeLlmPort,
   FakeSttPort,
