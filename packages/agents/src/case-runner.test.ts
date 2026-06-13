@@ -83,9 +83,10 @@ describe("runCase (two-stage extract -> deterministic classify)", () => {
     expect(r.citations).toContain("c-imci-cough-or-difficult-breathing-classify-and-treat");
   });
 
-  it("falls back to NO CLASSIFICATION on unparseable output (no crash)", async () => {
+  it("falls back to NO CLASSIFICATION on unparseable output with no detectable signals (no crash)", async () => {
     const llm = new ExtractingLlm(`not json at all`);
-    const r = await runCase(input, { llm, rag: rag() });
+    const neutral = { ...input, utterance: "the child was brought in today" };
+    const r = await runCase(neutral, { llm, rag: rag() });
     expect(r.classification).toBe("NO CLASSIFICATION");
   });
 });
