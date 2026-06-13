@@ -7,6 +7,7 @@ export { getAppLogger, getAuditLogger } from "./logger.js";
 export { LlmAdapter } from "./inference-llm.js";
 export { EmbedAdapter } from "./inference-embed.js";
 export { MeshAdapter } from "./inference-mesh.js";
+export { SttAdapter, TtsAdapter } from "./inference-voice.js";
 export {
   FakeLlmPort,
   FakeSttPort,
