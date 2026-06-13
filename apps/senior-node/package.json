@@ -1,0 +1,19 @@
+{
+  "name": "@lifeline/senior-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@lifeline/core": "workspace:*",
+    "@qvac/sdk": "0.12.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
