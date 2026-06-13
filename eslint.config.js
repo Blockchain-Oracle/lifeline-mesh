@@ -9,7 +9,7 @@ import globals from "globals";
  */
 export default tseslint.config(
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "**/*.config.js", "**/*.config.ts", "tests/fixtures/**"],
+    ignores: ["**/dist/**", "**/node_modules/**", "**/*.config.js", "**/*.config.ts", "tests/fixtures/**", "apps/web/public/**"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
