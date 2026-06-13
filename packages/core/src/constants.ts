@@ -26,6 +26,9 @@ export const TIMEOUTS_MS = {
 
 export const PORTS = { JUNIOR_HTTP: 8787, SENIOR_HTTP: 8788 } as const;
 
+// How many chars of a provider public key to record in the audit log (privacy).
+export const PROVIDER_KEY_PREFIX_LEN = 8;
+
 export const ESCALATE = {
   CONFIDENCE_THRESHOLD: 0.7,
   MAX_TURNS_BEFORE_ESCALATE: 6,

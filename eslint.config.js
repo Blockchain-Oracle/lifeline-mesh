@@ -17,6 +17,7 @@ export default tseslint.config(
   {
     rules: {
       "max-lines": ["error", { max: 400, skipBlankLines: true, skipComments: true }],
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
       "no-console": "error",
       "no-magic-numbers": [
         "error",
@@ -48,8 +49,8 @@ export default tseslint.config(
     rules: { "no-console": "off", "no-magic-numbers": "off" },
   },
   {
-    // Tests assert on literal values constantly.
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    // Tests and in-memory fakes are test scaffolding: literals are fine.
+    files: ["**/*.test.ts", "**/*.spec.ts", "**/*.fakes.ts"],
     rules: { "no-magic-numbers": "off" },
   },
 );
