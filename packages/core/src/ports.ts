@@ -7,8 +7,9 @@ export interface CompletionRequest {
   modelRef: string;
   history: ChatTurn[];
   tools?: ToolDef[];
-  responseFormat?: { type: "json_schema"; schema: Record<string, unknown> };
+  responseFormat?: { type: "json_schema"; name: string; schema: Record<string, unknown> };
   reasoningBudget?: number;
+  temperature?: number;
   delegated?: boolean;
   sessionId?: string;
   caseId?: string;

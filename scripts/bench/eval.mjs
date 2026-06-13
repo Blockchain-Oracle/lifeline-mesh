@@ -15,7 +15,9 @@ const { Workspace, WorkspaceRagPort } = rag;
 const { runCase } = agents;
 
 const modelRef = process.argv[2] || MODELS.JUNIOR_LLM_URL;
-const cases = JSON.parse(readFileSync(join(ROOT, "scripts/bench/eval-cases.json"), "utf8"));
+const limit = process.env.EVAL_LIMIT ? Number(process.env.EVAL_LIMIT) : Infinity;
+const ctxSize = process.env.EVAL_CTX ? Number(process.env.EVAL_CTX) : 8192;
+const cases = JSON.parse(readFileSync(join(ROOT, "scripts/bench/eval-cases.json"), "utf8")).slice(0, limit);
 
 const audit = new AuditWriter(new MemorySink());
 const llm = new LlmAdapter({ audit, reasoningBudgetJunior: 0 });
@@ -23,12 +25,11 @@ const embed = new EmbedAdapter(MODELS.EMBEDDING, RAG.EMBED_DIM);
 const ws = await Workspace.create(RAG.EMBED_DIM, join(ROOT, "kb/workspace.sqlite"));
 const ragPort = new WorkspaceRagPort(ws, embed);
 
-const modelId = await llm.load({ modelRef, tools: true, ctxSize: 4096 });
+const modelId = await llm.load({ modelRef, tools: true, ctxSize });
 
 let correct = 0;
-let usedTools = 0;
-let toolErrorCases = 0;
-const rows = [];
+let extracted = 0;
+let cited = 0;
 for (const c of cases) {
   const r = await runCase(
     { caseId: c.id, utterance: c.utterance, ageMonths: c.ageMonths, sex: c.sex, modelRef: modelId },
@@ -36,10 +37,9 @@ for (const c of cases) {
   );
   const ok = r.classification === c.expectedClassification;
   if (ok) correct++;
-  if (r.toolInvocations.length > 0) usedTools++;
-  if (r.toolErrors > 0) toolErrorCases++;
-  rows.push({ id: c.id, expected: c.expectedClassification, got: r.classification ?? "(none)", ok, tools: r.toolInvocations.length, toolErr: r.toolErrors });
-  console.log(`${ok ? "PASS" : "FAIL"} ${c.id}: expected="${c.expectedClassification}" got="${r.classification ?? "(none)"}" tools=${r.toolInvocations.length} err=${r.toolErrors}`);
+  if (Object.keys(r.findings).length > 0) extracted++;
+  if (r.citations.includes(r.classificationCitation)) cited++;
+  console.log(`${ok ? "PASS" : "FAIL"} ${c.id}: expected="${c.expectedClassification}" got="${r.classification}" [${r.categories.join("+")}]`);
 }
 
 await llm.unload(modelId);
@@ -50,6 +50,6 @@ const n = cases.length;
 console.log("\n=== SUMMARY ===");
 console.log(`model: ${modelRef}`);
 console.log(`classification accuracy: ${correct}/${n} = ${((correct / n) * 100).toFixed(0)}%`);
-console.log(`cases that used >=1 tool: ${usedTools}/${n} = ${((usedTools / n) * 100).toFixed(0)}%  (tool-adherence gate: >=80%)`);
-console.log(`cases with a tool error: ${toolErrorCases}/${n}`);
+console.log(`valid extraction: ${extracted}/${n}`);
+console.log(`classification cited: ${cited}/${n}`);
 process.exit(0);

@@ -85,9 +85,13 @@ export class LlmAdapter implements LlmPort {
     };
     if (tools) callParams["tools"] = tools;
     if (req.responseFormat) {
-      callParams["responseFormat"] = { type: "json_schema", json_schema: req.responseFormat.schema };
+      callParams["responseFormat"] = {
+        type: "json_schema",
+        json_schema: { name: req.responseFormat.name, schema: req.responseFormat.schema },
+      };
     }
     if (req.reasoningBudget !== undefined) callParams["reasoning_budget"] = req.reasoningBudget;
+    if (req.temperature !== undefined) callParams["temperature"] = req.temperature;
 
     const start = Date.now();
     const result = sdk.completion(callParams as Parameters<typeof sdk.completion>[0]) as {

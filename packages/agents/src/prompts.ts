@@ -1,25 +1,32 @@
-// Prompt templates (strings only — no logic). The system prompt steers MedPsy to
-// follow IMCI by calling tools rather than free-styling clinical advice.
+// Prompt templates (strings only — no logic).
 
-export const TRIAGE_SYSTEM = `You are an assistant for a community health worker (CHW) using the WHO IMCI protocol for a sick child aged 2 months up to 5 years. You have NO internet and must rely only on the tools provided and the protocol context.
+// Extraction prompt: the model fills a structured findings form (grammar-constrained
+// via json_schema). It does NOT classify — our deterministic code does (ADR-008).
+export const EXTRACTION_SYSTEM = `You extract clinical findings for a WHO IMCI assessment of a sick child. Record ONLY what the community health worker EXPLICITLY reports. Be conservative: when a symptom or sign is not clearly stated, set it to false.
 
-Rules:
-- ALWAYS use the tools to assess. Do not invent vital signs or classifications.
-- First call check_danger_signs with what the CHW reported. If any danger sign is present, the child is severe and needs urgent referral.
-- For breathing problems, call compute_breathing_rate, then classify_cough.
-- For dosing or drug questions, call amoxicillin_dose or drug_interaction.
-- When you have enough information, state the IMCI classification and the recommended treatment in one short paragraph. Keep it brief and concrete for a CHW.
-- Never give advice that is not grounded in a tool result or the provided protocol context.`;
+Critical rules:
+- Set a field to true ONLY if that exact symptom/sign is explicitly stated. Never infer or assume.
+- "Cough or breathing problem" is present ONLY if the report mentions cough, fast/difficult breathing, or chest indrawing. A child with ONLY fever, diarrhoea, an ear problem, or malnutrition does NOT have a cough or breathing problem.
+- A diarrhoea problem is present ONLY if loose/watery stools (diarrhoea) are mentioned.
+- A fever problem is present ONLY if fever, feeling hot, or a high temperature is mentioned.
+- An ear problem is present ONLY if ear pain, ear discharge, or swelling behind the ear is mentioned.
+- A malnutrition sign is present ONLY if swelling/oedema of both feet, a low MUAC measurement, or "very thin/wasted" is mentioned.
+- "unableToDrink" means the child cannot drink or breastfeed at all — it does NOT mean "not eating" or "poor appetite".
+- Only set danger signs (convulsing, lethargic/unconscious, vomits everything) to true if explicitly described.
+- For breathsPerMin and muacMm, fill the number ONLY if the CHW gives that number.
+- Do not diagnose or classify — only record what was reported.`;
 
-export function triageUser(utterance: string, ageMonths: number, sex: string): string {
-  return `Child age: ${ageMonths} months. Sex: ${sex}.
+export function extractionUser(utterance: string, ageMonths: number): string {
+  return `Child age: ${ageMonths} months.
 CHW reports: "${utterance}"
-Assess this child using the tools and give the IMCI classification and treatment.`;
+Extract the findings into the JSON form.`;
 }
 
-export function protocolContext(snippets: string[]): string {
-  if (snippets.length === 0) return "";
-  return `Relevant WHO IMCI protocol excerpts (cite these):\n${snippets.map((s, i) => `[${i + 1}] ${s}`).join("\n")}`;
+// Optional CHW-facing phrasing of the deterministic classification + treatment.
+export function adviceUser(classification: string, rationale: string, treatmentSnippet: string): string {
+  return `The IMCI classification for this child is: ${classification} (${rationale}).
+Relevant treatment from the protocol: ${treatmentSnippet}
+Write 2-3 short, clear sentences telling the community health worker what this means and what to do now. Be concrete and calm.`;
 }
 
-export const SELF_ASSESSMENT_PROMPT = `Review the assessment you just completed for this child. Honestly rate your confidence that the IMCI classification is correct given the information available, and whether a more experienced clinician should review the case.`;
+export const SELF_ASSESSMENT_PROMPT = `Rate your confidence (0 to 1) that the recorded findings for this child are complete and correct, and whether a more experienced clinician should review the case.`;

@@ -35,4 +35,7 @@ export const CITATIONS = {
   coughTreat: "c-imci-cough-or-difficult-breathing-classify-and-treat",
   amoxDosing: "c-imci-amoxicillin-dosing-oral",
   malnutrition: "c-imci-acute-malnutrition-assess-and-classify",
+  diarrhoea: "c-imci-diarrhoea-assess-and-classify-dehydration",
+  fever: "c-imci-fever-assess-and-classify",
+  ear: "c-imci-ear-problem-assess-and-classify",
 } as const;

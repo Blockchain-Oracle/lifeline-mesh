@@ -23,7 +23,7 @@ export async function assessConfidence(
   const result = llm.complete({
     modelRef,
     history,
-    responseFormat: { type: "json_schema", schema: SELF_ASSESSMENT_JSON_SCHEMA },
+    responseFormat: { type: "json_schema", name: "self_assessment", schema: SELF_ASSESSMENT_JSON_SCHEMA },
     reasoningBudget: 0,
   });
   for await (const _ of result.tokenStream) void _;

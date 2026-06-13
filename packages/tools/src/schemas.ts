@@ -3,30 +3,47 @@ import type { ToolDef } from "@lifeline/core";
 
 // Zod tool schemas → SDK ToolDef list (the SDK reads `.shape` off `parameters`).
 // One source of truth: agents import these defs; the dispatcher validates args.
+//
+// Small medical models (MedPsy) emit tool args as strings/yes-no ("24", "yes"),
+// so number/boolean fields are COERCIVE — verified against live MedPsy output.
+
+const num = z.coerce.number();
+const optNum = z.coerce.number().optional();
+const optBool = z
+  .preprocess((v) => {
+    if (typeof v === "boolean") return v;
+    if (typeof v === "string") {
+      const s = v.trim().toLowerCase();
+      if (["true", "yes", "y", "1", "present"].includes(s)) return true;
+      if (["false", "no", "n", "0", "absent", ""].includes(s)) return false;
+    }
+    return v;
+  }, z.boolean())
+  .optional();
 
 export const breathingRateArgs = z.object({
-  ratePerMin: z.number().describe("Breaths counted in one full minute"),
-  ageMonths: z.number().describe("Child age in months"),
+  ratePerMin: num.describe("Breaths counted in one full minute"),
+  ageMonths: num.describe("Child age in months"),
 });
 
 export const dangerSignsArgs = z.object({
-  unable_to_drink: z.boolean().optional().describe("Child not able to drink or breastfeed"),
-  vomits_everything: z.boolean().optional().describe("Child vomits everything"),
-  convulsions_history: z.boolean().optional().describe("Child has had convulsions this illness"),
-  lethargic: z.boolean().optional().describe("Child is lethargic"),
-  unconscious: z.boolean().optional().describe("Child is unconscious"),
-  convulsing_now: z.boolean().optional().describe("Child is convulsing now"),
+  unable_to_drink: optBool.describe("Child not able to drink or breastfeed"),
+  vomits_everything: optBool.describe("Child vomits everything"),
+  convulsions_history: optBool.describe("Child has had convulsions this illness"),
+  lethargic: optBool.describe("Child is lethargic"),
+  unconscious: optBool.describe("Child is unconscious"),
+  convulsing_now: optBool.describe("Child is convulsing now"),
 });
 
 export const classifyCoughArgs = z.object({
-  ageMonths: z.number().describe("Child age in months"),
-  breathsPerMin: z.number().optional().describe("Breaths per minute, if counted"),
-  chestIndrawing: z.boolean().optional().describe("Chest indrawing present"),
-  stridorInCalmChild: z.boolean().optional().describe("Stridor heard in a calm child"),
+  ageMonths: num.describe("Child age in months"),
+  breathsPerMin: optNum.describe("Breaths per minute, if counted"),
+  chestIndrawing: optBool.describe("Chest indrawing present"),
+  stridorInCalmChild: optBool.describe("Stridor heard in a calm child"),
 });
 
 export const doseArgs = z.object({
-  weightKg: z.number().describe("Child weight in kilograms"),
+  weightKg: num.describe("Child weight in kilograms"),
 });
 
 export const drugInteractionArgs = z.object({
