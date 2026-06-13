@@ -1,0 +1,35 @@
+name: ARM smoke (non-blocking)
+
+# Proves @qvac/sdk's linux-arm64 native prebuild loads and runs one completion
+# on a tiny built-in model. Non-blocking: informational signal for build-in-public.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  arm-smoke:
+    runs-on: ubuntu-24.04-arm
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: ~/.qvac
+          key: qvac-arm-smoke-dev-llm-v1
+
+      - name: Load tiny model + one completion on arm64
+        run: pnpm --filter @lifeline/core exec node dist/smoke/arm-smoke.js

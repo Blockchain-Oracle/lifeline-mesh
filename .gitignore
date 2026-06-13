@@ -1,0 +1,21 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+*.log
+
+# Model weights and large binaries — never commit; fetched by setup scripts
+*.gguf
+*.bin
+kb/source/*.pdf
+
+# Built RAG DB can be large; commit only if under limits (tracked via LFS otherwise)
+# kb/workspace.sqlite
+
+# Local env + secrets
+.env
+.env.*
+infra/pi/*.env
+
+# Audit logs are regenerated per run; keep the aggregated submission JSON only
+submission/audit-log.ndjson
