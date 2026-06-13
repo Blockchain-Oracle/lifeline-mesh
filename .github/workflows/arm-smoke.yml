@@ -29,5 +29,8 @@ jobs:
           path: ~/.qvac
           key: qvac-arm-smoke-dev-llm-v1
 
-      - name: Load tiny model + one completion on arm64
-        run: pnpm --filter @lifeline/core exec node dist/smoke/arm-smoke.js
+      - name: Build
+        run: pnpm build
+
+      - name: arm64 SDK smoke (load + inference on aarch64)
+        run: node scripts/arm-smoke.mjs
