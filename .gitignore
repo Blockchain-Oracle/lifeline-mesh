@@ -20,5 +20,5 @@ kb/source/.text/
 .env.*
 infra/pi/*.env
 
-# Audit logs are regenerated per run; keep the aggregated submission JSON only
-submission/audit-log.ndjson
+# Raw audit NDJSON is regenerated per run; keep the aggregated submission JSON only
+submission/*.ndjson
